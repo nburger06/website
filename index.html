@@ -171,44 +171,29 @@ header::before {
 
 /* The big name — half organic, half glitch */
 .site-title {
-  font-family: 'Plaster', cursive;
-  font-size: clamp(3.2rem, 9vw, 6.5rem);
-  font-weight: 900;
-  line-height: 0.88;
-  letter-spacing: -0.03em;
-  color: var(--light);
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
-.site-title .t1 { display: block; color: var(--light); }
-.site-title .t2 {
-  display: block;
-  color: var(--pink);
-  font-style: italic;
-  position: relative;
-}
-/* Glitch effect on pink line */
-.site-title .t2::before {
-  content: attr(data-text);
-  position: absolute;
-  left: 2px; top: 0;
-  color: var(--green);
-  clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
-  animation: glitch 4s steps(1) infinite;
-  opacity: 0.6;
-}
-.site-title .t2::after {
-  content: attr(data-text);
-  position: absolute;
-  left: -2px; top: 0;
-  color: var(--lilac);
-  clip-path: polygon(0 65%, 100% 65%, 100% 75%, 0 75%);
-  animation: glitch2 5s steps(1) infinite;
-  opacity: 0.5;
-}
-@keyframes glitch  { 0%,90%,100%{transform:none} 92%{transform:translateX(3px)} 94%{transform:translateX(-2px)} 96%{transform:none} }
-@keyframes glitch2 { 0%,85%,100%{transform:none} 87%{transform:translateX(-3px)} 89%{transform:translateX(2px)} 91%{transform:none} }
-.site-title .t3 { display: block; color: var(--green); font-family:'Share Tech Mono',monospace; font-size: 0.38em; letter-spacing:0.22em; font-weight:400; margin-top:16px; }
 
+.single-title {
+  font-family: 'Plaster', cursive;
+  font-size: clamp(3.2rem, 9vw, 6.2rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--light);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.site-title .t3 {
+  display: block;
+  color: var(--green);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  font-weight: 400;
+}
 /* Header right: Art Nouveau medallion meets circuit */
 .header-right { position:relative; width:180px; height:220px; flex-shrink:0; }
 
@@ -254,11 +239,11 @@ header::before {
 /* ── NAV ── */
 nav {
   display: flex;
-  gap: 0;
-  margin: 0 0 60px;
-  border-bottom: 1px solid rgba(57,224,155,0.15);
-  overflow-x: auto;
-  position: relative;
+  gap: 16px;
+  margin: 32px 0 60px;
+  flex-wrap: wrap;
+  border-bottom: none;
+  overflow: visible;
 }
 
 .tab-btn {
@@ -266,39 +251,52 @@ nav {
   font-size: 0.68rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  padding: 20px 32px 18px;
-  background: transparent;
-  color: rgba(180,142,224,0.55);
-  border: none;
+  padding: 16px 28px;
+  background: rgba(19, 19, 31, 0.9);
+  color: rgba(237,230,214,0.75);
+  border: 1px solid rgba(180,142,224,0.2);
   cursor: crosshair;
   position: relative;
   white-space: nowrap;
-  transition: color 0.25s;
+  transition: all 0.3s ease;
+  border-radius: 4px;
 }
-.tab-btn::before {
-  content: attr(data-index);
-  position: absolute;
-  top: 8px; left: 8px;
-  font-size: 0.5rem;
-  color: var(--green);
-  opacity: 0.4;
+
+.tab-btn:hover {
+  border-color: var(--green);
+  color: var(--light);
+  transform: translateY(-2px);
 }
-.tab-btn::after {
+
+.tab-btn.featured {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(240,46,117,0.18),
+      rgba(180,142,224,0.18),
+      rgba(57,224,155,0.18)
+    );
+  border: 1px solid rgba(57,224,155,0.45);
+  box-shadow:
+    0 0 12px rgba(57,224,155,0.15),
+    0 0 20px rgba(180,142,224,0.08);
+  color: var(--light);
+}
+
+.tab-btn.featured::after {
   content: '';
   position: absolute;
-  bottom: -1px; left: 0; right: 0;
-  height: 1px;
-  transform: scaleX(0);
-  transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+  inset: 0;
+  background:
+    linear-gradient(
+      120deg,
+      transparent 20%,
+      rgba(255,255,255,0.08) 50%,
+      transparent 80%
+    );
+  pointer-events: none;
 }
-.tab-btn:nth-child(1)::after { background: var(--pink); box-shadow: 0 0 8px var(--pink); }
-.tab-btn:nth-child(2)::after { background: var(--lilac); box-shadow: 0 0 8px var(--lilac); }
-.tab-btn:nth-child(3)::after { background: var(--green); box-shadow: 0 0 8px var(--green); }
-.tab-btn:nth-child(4)::after { background: var(--pink); box-shadow: 0 0 8px var(--pink); }
-.tab-btn:hover { color: var(--light); }
-.tab-btn:hover::after, .tab-btn.active::after { transform: scaleX(1); }
-.tab-btn.active { color: var(--light); }
-
+  
 /* ── PAGES ── */
 .page { display: none; }
 .page.active { display: block; animation: pagerise 0.4s cubic-bezier(.4,0,.2,1); }
@@ -715,9 +713,8 @@ footer {
     <div>
       <div class="sys-label">SYS.INIT // PORTFOLIO_v2.5</div>
       <div class="site-title">
-        <span class="t1">Your</span>
-        <span class="t2" data-text="Name.">Name.</span>
-        <span class="t3">EMPRESS OF THE UNIVERSE]</span>
+        <span class="single-title">Your Name</span>
+        <span class="t3">RESEARCHER // CREATOR // [CITY]</span>
       </div>
       <div class="tagline-row">
         <div class="tagline">greetings earthlings &nbsp;·&nbsp; i'm curious about &nbsp;·&nbsp; most things</div>
@@ -772,10 +769,12 @@ footer {
 
   <!-- ══ NAV ══ -->
   <nav>
-    <button class="tab-btn active" data-index="01" onclick="showPage('about',this)">About Me</button>
-    <button class="tab-btn" data-index="02" onclick="showPage('research',this)">Research</button>
-    <button class="tab-btn" data-index="03" onclick="showPage('projects',this)">Projects</button>
-    <button class="tab-btn" data-index="04" onclick="showPage('contact',this)">Contact</button>
+  <button class="tab-btn featured active" data-index="01" onclick="showPage('about',this)">
+    About Me
+  </button>
+  <button class="tab-btn" data-index="02" onclick="showPage('research',this)">Research</button>
+  <button class="tab-btn" data-index="03" onclick="showPage('projects',this)">Projects</button>
+  <button class="tab-btn" data-index="04" onclick="showPage('contact',this)">Contact</button>
   </nav>
 
   <!-- ══════════ ABOUT ══════════ -->
